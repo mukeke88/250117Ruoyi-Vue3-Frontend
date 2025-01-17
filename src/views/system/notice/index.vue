@@ -82,6 +82,11 @@
                <dict-tag :options="sys_notice_type" :value="scope.row.noticeType" />
             </template>
          </el-table-column>
+         <el-table-column label="排序" align="center" prop="sortOrder" width="100">
+            <template #default="scope">
+               {{ scope.row.sortOrder }}
+            </template>
+         </el-table-column>
          <el-table-column label="状态" align="center" prop="status" width="100">
             <template #default="scope">
                <dict-tag :options="sys_notice_status" :value="scope.row.status" />
@@ -130,7 +135,7 @@
                      </el-select>
                   </el-form-item>
                </el-col>
-               <el-col :span="24">
+               <el-col :span="12">
                   <el-form-item label="状态">
                      <el-radio-group v-model="form.status">
                         <el-radio
@@ -139,6 +144,17 @@
                            :value="dict.value"
                         >{{ dict.label }}</el-radio>
                      </el-radio-group>
+                  </el-form-item>
+               </el-col>
+               <el-col :span="12">
+                  <el-form-item label="排序" prop="sortOrder">
+                     <el-input-number
+                        v-model="form.sortOrder"
+                        :precision="5"
+                        :step="0.00001"
+                        :min="0"
+                        controls-position="right"
+                     />
                   </el-form-item>
                </el-col>
                <el-col :span="24">
@@ -181,11 +197,17 @@ const data = reactive({
     pageSize: 10,
     noticeTitle: undefined,
     createBy: undefined,
-    status: undefined
+    status: undefined,
+    orderByColumn: "sort_order",
+    isAsc: "asc"
   },
   rules: {
     noticeTitle: [{ required: true, message: "公告标题不能为空", trigger: "blur" }],
-    noticeType: [{ required: true, message: "公告类型不能为空", trigger: "change" }]
+    noticeType: [{ required: true, message: "公告类型不能为空", trigger: "change" }],
+    sortOrder: [
+      { required: true, message: "排序值不能为空", trigger: "blur" },
+      { type: "number", message: "排序值必须为数字", trigger: "blur" }
+    ]
   },
 });
 
@@ -214,7 +236,8 @@ function reset() {
     noticeTitle: undefined,
     noticeType: undefined,
     noticeContent: undefined,
-    status: "0"
+    status: "0",
+    sortOrder: undefined
   };
   proxy.resetForm("noticeRef");
 }
