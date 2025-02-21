@@ -51,7 +51,7 @@
 
     <el-table v-loading="loading" :data="wordsList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="单词ID" align="center" prop="wordId" width="100" />
+      <!-- <el-table-column label="单词ID" align="center" prop="wordId" width="100" /> -->
       <el-table-column label="单词" align="center" prop="word" :show-overflow-tooltip="true" />
       <el-table-column label="示例句子" align="center" prop="exampleSentence" :show-overflow-tooltip="true" />
       <el-table-column label="排序" align="center" prop="sortOrder" width="100">
